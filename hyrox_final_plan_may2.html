@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HYROX Race Report — Updated May 2, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#111010;--white:#F7F4EF;--cream:#EDE9E1;
+  --green:#1B6E52;--green-light:#D4EDE5;--green-mid:#2A9470;
+  --amber:#B5621A;--amber-light:#F5E8D6;
+  --red:#B83228;--red-light:#F5DEDD;
+  --blue:#1A52A0;--blue-light:#D8E7F7;
+  --purple:#4A3A9E;--purple-light:#E8E5F8;
+  --grey:#6A6A6A;--grey-light:#E8E5E0;--border:#D4CFC8;
+  --fn:'DM Sans',sans-serif;--fd:'Fraunces',serif;--fm:'DM Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--white);color:var(--black);font-family:var(--fn);min-height:100vh;}
+
+.header{background:var(--black);padding:0;}
+.header-inner{padding:18px 18px 0;}
+.report-tag{font-family:var(--fm);font-size:10px;color:#666;letter-spacing:.08em;margin-bottom:6px;}
+.header-title{font-family:var(--fd);font-size:24px;font-weight:700;color:var(--white);line-height:1.1;letter-spacing:-0.02em;margin-bottom:2px;}
+.header-title em{font-style:italic;color:#9FD4C4;}
+.header-meta{font-family:var(--fm);font-size:11px;color:#888;margin-bottom:14px;}
+.verdict-strip{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid #222;}
+.vs-cell{padding:12px 14px;border-right:1px solid #222;}
+.vs-cell:last-child{border-right:none;}
+.vs-label{font-family:var(--fm);font-size:9px;color:#666;letter-spacing:.07em;margin-bottom:4px;}
+.vs-val{font-family:var(--fd);font-size:20px;font-weight:700;letter-spacing:-0.02em;line-height:1;}
+.vs-val.green{color:#7FE8C4;}
+.vs-val.amber{color:#FAC77A;}
+.vs-val.red{color:#F0A09A;}
+.vs-sub{font-size:10px;color:#888;margin-top:3px;font-family:var(--fm);}
+
+.tab-bar{background:var(--white);border-bottom:1px solid var(--border);display:flex;gap:0;overflow-x:auto;position:sticky;top:0;z-index:100;}
+.tab-bar::-webkit-scrollbar{display:none;}
+.tab{padding:10px 13px;font-size:12px;font-weight:500;font-family:var(--fn);border:none;background:none;cursor:pointer;color:var(--grey);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .15s;}
+.tab.active{color:var(--black);border-bottom-color:var(--black);}
+
+.content{padding:16px;max-width:680px;margin:0 auto;}
+.panel{display:none;}
+.panel.active{display:block;}
+
+.sec{font-family:var(--fm);font-size:10px;font-weight:500;color:var(--grey);text-transform:uppercase;letter-spacing:.08em;margin:16px 0 8px;}
+.sec:first-child{margin-top:0;}
+
+.card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:13px 15px;margin-bottom:9px;}
+.row{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--grey-light);font-size:13px;line-height:1.55;}
+.row:last-child{border-bottom:none;padding-bottom:0;}
+.row:first-child{padding-top:0;}
+.ri{flex-shrink:0;width:20px;font-family:var(--fm);font-size:11px;color:var(--grey);line-height:1.6;}
+.rt{color:var(--black);font-size:13px;line-height:1.55;}
+.rt b{font-weight:600;}
+
+.alert{border-radius:10px;padding:12px 15px;margin-bottom:10px;font-size:12px;line-height:1.65;}
+.alert b{font-weight:600;}
+.alert-green{background:var(--green-light);border:1px solid #A8DDD0;color:#0A3D28;}
+.alert-amber{background:var(--amber-light);border:1px solid #E8C090;color:#5C2E00;}
+.alert-red{background:var(--red-light);border:1px solid #EAB0A8;color:#5C1A14;}
+.alert-purple{background:var(--purple-light);border:1px solid #C0B8F0;color:#2A1E7A;}
+.alert-black{background:var(--black);border:1px solid var(--black);color:var(--white);}
+.alert-black b{color:#9FD4C4;}
+
+.badge{display:inline-block;font-size:10px;font-weight:600;font-family:var(--fm);padding:2px 8px;border-radius:20px;letter-spacing:.02em;}
+.b-green{background:var(--green-light);color:var(--green);}
+.b-amber{background:var(--amber-light);color:var(--amber);}
+.b-red{background:var(--red-light);color:var(--red);}
+.b-blue{background:var(--blue-light);color:var(--blue);}
+.b-grey{background:var(--grey-light);color:var(--grey);}
+.b-sc{background:var(--blue-light);color:var(--blue);}
+.b-kc{background:var(--amber-light);color:var(--amber);}
+.b-purple{background:var(--purple-light);color:var(--purple);}
+
+/* STATION TABLE */
+.st-table{width:100%;border-collapse:collapse;font-size:12px;}
+.st-table th{font-family:var(--fm);font-size:9px;color:var(--grey);font-weight:500;padding:5px 6px;border-bottom:1px solid var(--border);text-align:center;letter-spacing:.04em;}
+.st-table th:first-child{text-align:left;}
+.st-table td{padding:9px 6px;border-bottom:1px solid var(--grey-light);vertical-align:middle;}
+.st-table td:first-child{font-weight:600;color:var(--black);font-size:12px;}
+.st-table td:not(:first-child){text-align:center;font-family:var(--fm);font-size:11px;color:var(--grey);}
+.st-table tr:last-child td{border-bottom:none;}
+
+/* SPLIT EXPLAINER */
+.split-card{border-radius:10px;padding:13px 15px;margin-bottom:9px;border:1px solid var(--border);background:#fff;}
+.split-title{font-family:var(--fd);font-size:15px;font-weight:700;color:var(--black);margin-bottom:4px;letter-spacing:-0.01em;}
+.split-meta{font-family:var(--fm);font-size:10px;color:var(--grey);margin-bottom:10px;letter-spacing:.04em;}
+.split-vis{display:flex;height:32px;border-radius:6px;overflow:hidden;margin:10px 0;}
+.sv-sc{background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--blue);font-family:var(--fm);}
+.sv-kc{background:var(--amber-light);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--amber);font-family:var(--fm);}
+.split-logic{font-size:12px;color:var(--grey);line-height:1.6;margin-top:6px;}
+.split-logic b{color:var(--black);font-weight:600;}
+
+/* TIME PROJECTION */
+.sc3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.sc-box{border-radius:10px;padding:12px;}
+.sc-box.a{background:var(--blue-light);border:1px solid #B0CCF0;}
+.sc-box.b{background:var(--green-light);border:1px solid #A0D8C8;}
+.sc-box.c{background:var(--amber-light);border:1px solid #E8C090;}
+.sc-label{font-family:var(--fm);font-size:9px;font-weight:500;letter-spacing:.07em;margin-bottom:4px;}
+.sc-box.a .sc-label{color:var(--blue);}
+.sc-box.b .sc-label{color:var(--green);}
+.sc-box.c .sc-label{color:var(--amber);}
+.sc-time{font-family:var(--fd);font-size:22px;font-weight:700;letter-spacing:-0.03em;line-height:1.1;}
+.sc-box.a .sc-time{color:var(--blue);}
+.sc-box.b .sc-time{color:var(--green);}
+.sc-box.c .sc-time{color:var(--amber);}
+.sc-note{font-size:10px;margin-top:4px;line-height:1.5;opacity:.8;}
+
+/* PLAN */
+.wk-label{font-family:var(--fm);font-size:10px;font-weight:500;color:var(--grey);text-transform:uppercase;letter-spacing:.07em;margin:16px 0 7px;display:flex;align-items:center;gap:8px;}
+.wk-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.day-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:11px 13px;margin-bottom:7px;display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:start;}
+.day-card.rest{background:var(--cream);}
+.day-card.key{border:1.5px solid var(--purple);}
+.day-card.race-eve{border:1.5px solid var(--amber);}
+.day-card.race-day{background:var(--red-light);border:1.5px solid #D47A74;}
+.ddate{font-family:var(--fm);font-size:11px;font-weight:500;color:var(--grey);line-height:1.4;}
+.ddate .wd{font-size:10px;color:#aaa;font-weight:400;display:block;}
+.dtitle{font-family:var(--fd);font-size:14px;font-weight:600;color:var(--black);margin-bottom:3px;line-height:1.25;}
+.ddetail{font-size:12px;color:var(--grey);line-height:1.6;}
+.ddetail b{font-weight:600;color:var(--black);}
+.dtag{display:inline-block;font-size:9px;font-weight:600;font-family:var(--fm);padding:3px 8px;border-radius:20px;white-space:nowrap;letter-spacing:.03em;}
+.tag-key{background:var(--purple-light);color:var(--purple);}
+.tag-run{background:var(--blue-light);color:var(--blue);}
+.tag-rest{background:var(--grey-light);color:var(--grey);}
+.tag-taper{background:var(--green-light);color:var(--green);}
+.tag-act{background:var(--amber-light);color:var(--amber);}
+.tag-race{background:var(--red-light);color:var(--red);}
+
+/* FOOD/KIT */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.col-card{border-radius:10px;padding:12px 13px;}
+.col-card.yes{background:var(--green-light);border:1px solid #A8DDD0;}
+.col-card.no{background:var(--red-light);border:1px solid #EAB0A8;}
+.col-title{font-family:var(--fm);font-size:9px;font-weight:500;letter-spacing:.07em;margin-bottom:8px;}
+.col-card.yes .col-title{color:var(--green);}
+.col-card.no .col-title{color:var(--red);}
+.col-card ul{padding-left:14px;font-size:12px;line-height:1.85;color:var(--black);}
+
+.tl-row{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--grey-light);font-size:12px;}
+.tl-row:last-child{border-bottom:none;}
+.tl-time{min-width:76px;font-family:var(--fm);font-size:11px;font-weight:500;color:var(--grey);padding-top:1px;flex-shrink:0;}
+.tl-text{color:var(--black);line-height:1.55;}
+.tl-text b{font-weight:600;}
+
+@media(max-width:480px){
+  .sc3{grid-template-columns:1fr 1fr;}
+  .two-col{grid-template-columns:1fr;}
+  .verdict-strip{grid-template-columns:1fr 1fr;}
+  .verdict-strip .vs-cell:nth-child(3){grid-column:span 2;border-top:1px solid #222;border-right:none;}
+  .day-card{grid-template-columns:48px 1fr auto;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="report-tag">HYROX DOUBLES OPEN · HEAD JUDGE REPORT · UPDATED</div>
+    <div class="header-title">Final Race <em>Plan</em></div>
+    <div class="header-meta">Updated: 2 May 2026 · Race: 10 May 2026 · 8 days out</div>
+  </div>
+  <div class="verdict-strip">
+    <div class="vs-cell">
+      <div class="vs-label">RACE TARGET</div>
+      <div class="vs-val green">1:19–1:22</div>
+      <div class="vs-sub">realistic with execution</div>
+    </div>
+    <div class="vs-cell">
+      <div class="vs-label">BEST CASE</div>
+      <div class="vs-val amber">1:16–1:18</div>
+      <div class="vs-sub">if burpee + transitions click</div>
+    </div>
+    <div class="vs-cell">
+      <div class="vs-label">FLOOR</div>
+      <div class="vs-val red">1:24–1:28</div>
+      <div class="vs-sub">fatigue + undrilled transitions</div>
+    </div>
+  </div>
+</div>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="show('splits')">Station splits</button>
+  <button class="tab" onclick="show('plan')">May 3–9</button>
+  <button class="tab" onclick="show('wallball')">Wall ball</button>
+  <button class="tab" onclick="show('raceday')">Race day</button>
+  <button class="tab" onclick="show('nutrition')">Nutrition</button>
+</div>
+
+<div class="content">
+
+<!-- SPLITS -->
+<div class="panel active" id="panel-splits">
+
+  <div class="alert alert-black">
+    <b>Philosophy:</b> Load KC at strength stations. Load SC at aerobic stations. The person who is stronger at a station should start it — they set the pace and rhythm. Unequal splits done right are faster than equal splits every time.
+  </div>
+
+  <!-- SLED PUSH -->
+  <div class="split-card">
+    <div class="split-title">Sled Push — 50m</div>
+    <div class="split-meta">STATION 2 · STRENGTH</div>
+    <div class="split-vis">
+      <div class="sv-sc" style="flex:5">SC starts — 25m</div>
+      <div class="sv-kc" style="flex:5">KC takes over — 25m</div>
+    </div>
+    <div class="split-logic">
+      <b>SC starts, KC finishes.</b> Your instinct is right — you lead, pass to KC when tired. This works because SC gets moving first while legs are fresher, and KC's strength closes out the hard final metres. The 2:04–2:05 you've recorded consistently shows this split is working. <b>Do not change it.</b> The split where SC goes first and signals KC when to take over is natural and already fast. Keep it exactly as you've been doing.
+    </div>
+  </div>
+
+  <!-- SLED PULL -->
+  <div class="split-card">
+    <div class="split-title">Sled Pull — 50m</div>
+    <div class="split-meta">STATION 3 · GRIP + POSTERIOR CHAIN</div>
+    <div class="split-vis">
+      <div class="sv-kc" style="flex:5">KC starts — 25m</div>
+      <div class="sv-sc" style="flex:5">SC finishes — 25m</div>
+    </div>
+    <div class="split-logic">
+      <b>KC starts.</b> Pull is a grip and posterior chain station — KC's strength territory. KC opens with explosive short pulls, SC finishes. Short powerful pulls, reset foot position between each pull. Do not slow-drag the rope. Think of it as quick sharp pulls with a reset, not a long continuous slow haul.
+    </div>
+  </div>
+
+  <!-- FARMERS CARRY -->
+  <div class="split-card">
+    <div class="split-title">Farmers Carry — 200m</div>
+    <div class="split-meta">STATION 6 · KC IS STRONGER · KC 120m / SC 80m</div>
+    <div class="split-vis">
+      <div class="sv-kc" style="flex:6">KC leads — 120m</div>
+      <div class="sv-sc" style="flex:4">SC finishes — 80m</div>
+    </div>
+    <div class="split-logic">
+      Since KC carries 120m and SC carries 80m, <b>KC should start.</b> Here's why: the athlete doing more distance should open — they set the pace for the whole station and need the freshest legs for their longer leg. SC coming in to close 80m when relatively fresher is efficient.<br><br>
+      <b>How to split it:</b> KC carries for 120m (e.g. 40m out, 40m back, 40m out to the 40m mark), then SC takes the handles and carries the final 80m back. Agree the exact handoff point on Sunday's run — walk the course or mark a distance so you both know exactly where the swap happens. No hesitation at the handoff.
+    </div>
+  </div>
+
+  <!-- BURPEE -->
+  <div class="split-card">
+    <div class="split-title">Burpee Broad Jump — 80m</div>
+    <div class="split-meta">STATION 4 · SC'S AEROBIC STATION</div>
+    <div class="split-vis">
+      <div class="sv-sc" style="flex:5">SC — ~40m (7 jumps)</div>
+      <div class="sv-kc" style="flex:5">KC — ~40m (7 jumps)</div>
+    </div>
+    <div class="split-logic">
+      <b>7 jumps each is fine as a starting structure</b>, but the real question is jump distance, not rep count. At 3m per jump, 7 reps = 21m — you'd need 4 swaps each to cover 80m. At 5m per jump, 7 reps = 35m — only 2–3 swaps needed total.<br><br>
+      <b>The strategy:</b> Don't count reps — count distance. Agree a marker (a cone, a line on the floor) at the 40m point. SC goes first to the 40m mark, then KC finishes. Simple. If SC's jumps are short, she does more reps to get to 40m — that's fine. If they're long, she gets there in fewer. Distance is the target, not rep parity.<br><br>
+      <b>SC should do more, not less here.</b> This is your aerobic station. SC leading 40–45m and KC finishing 35–40m plays to your strengths. SC's aerobic engine is better suited to the continuous rhythm of burpees than KC's.
+    </div>
+  </div>
+
+  <!-- ROW -->
+  <div class="split-card">
+    <div class="split-title">Rowing — 1,000m</div>
+    <div class="split-meta">STATION 5 · TESTED: 600/400 = 4:46 vs 4-SPLIT = 5:01</div>
+    <div class="split-vis">
+      <div class="sv-sc" style="flex:5">SC — 500m</div>
+      <div class="sv-kc" style="flex:5">KC — 500m</div>
+    </div>
+    <div class="split-logic">
+      <b>600/400 felt hard for a reason — it's a long solo effort on the erg.</b> The 4:46 is faster than the 4-split's 5:01, but if SC feels that 600m is genuinely too much under race fatigue, the answer is not going back to the 4-split. Instead, try <b>500/500</b> — two clean legs, one handoff, still fewer transitions than the 4-split.<br><br>
+      <b>Recommendation: race with 500/500.</b> It's a compromise between the speed of 600/400 and the manageability of even splits. SC does 500m first (aerobic advantage), KC closes 500m. One handoff, clean and fast. If you want to test 600/400 again on Sunday's run, do it — but only if SC genuinely believes she can hold it under full race fatigue after sled pull and burpees.
+    </div>
+  </div>
+
+  <!-- WALL BALLS -->
+  <div class="split-card">
+    <div class="split-title">Wall Balls — 100 reps</div>
+    <div class="split-meta">STATION 8 · MOST CRITICAL SPLIT</div>
+    <div class="split-vis">
+      <div class="sv-kc" style="flex:7">KC — 70 reps</div>
+      <div class="sv-sc" style="flex:3">SC — 30 reps</div>
+    </div>
+    <div class="split-logic">
+      <b>KC starts, does 70. SC finishes with 30.</b> KC calls "THIRTY" at rep 70 — SC steps in immediately, no gap, no ball touching the floor between athletes.<br><br>
+      <b>If Sunday's session shows SC can only do 15–20 clean reps under fatigue</b>, adjust to KC 75 / SC 25. Be honest. A broken set from SC trying to do 30 costs more time than the adjusted split.
+    </div>
+  </div>
+
+  <!-- FULL TABLE -->
+  <div class="sec">All stations — quick reference</div>
+  <div class="card" style="padding:0 0 2px;overflow:hidden;">
+    <table class="st-table">
+      <thead>
+        <tr><th>#</th><th>Station</th><th>Who starts</th><th>Split</th><th>Target</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>SkiErg 1,000m</td><td><span class="badge b-sc">SC starts</span></td><td>200/300/300/200</td><td>4:39–5:00</td></tr>
+        <tr><td>2</td><td>Sled Push 50m</td><td><span class="badge b-sc">SC starts</span></td><td>SC leads, KC takes over</td><td>2:00–2:10</td></tr>
+        <tr><td>3</td><td>Sled Pull 50m</td><td><span class="badge b-kc">KC starts</span></td><td>KC 25m / SC 25m</td><td>3:30–3:50</td></tr>
+        <tr><td>4</td><td>Burpee 80m</td><td><span class="badge b-sc">SC starts</span></td><td>SC to 40m mark / KC finishes</td><td>3:30–4:00</td></tr>
+        <tr><td>5</td><td>Row 1,000m</td><td><span class="badge b-sc">SC starts</span></td><td>SC 500m / KC 500m</td><td>4:40–5:00</td></tr>
+        <tr><td>6</td><td>Farmers Carry 200m</td><td><span class="badge b-kc">KC starts</span></td><td>KC 120m / SC 80m</td><td>2:10–2:30</td></tr>
+        <tr><td>7</td><td>Sandbag Lunges 100m</td><td><span class="badge b-kc">KC starts</span></td><td>KC 60m / SC 40m</td><td>3:15–3:30</td></tr>
+        <tr><td>8</td><td>Wall Balls 100 reps</td><td><span class="badge b-kc">KC starts</span></td><td>KC 70 / SC 30</td><td>3:45–4:30</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sc3" style="margin-top:4px;">
+    <div class="sc-box a">
+      <div class="sc-label">BEST CASE</div>
+      <div class="sc-time">1:16–1:18</div>
+      <div class="sc-note">Burpee fix. Transitions ≤8s. SC holds 30 WB clean.</div>
+    </div>
+    <div class="sc-box b">
+      <div class="sc-label">TARGET</div>
+      <div class="sc-time">1:19–1:22</div>
+      <div class="sc-note">Consistent pace. Clean splits. Transitions ~12s.</div>
+    </div>
+    <div class="sc-box c">
+      <div class="sc-label">FLOOR</div>
+      <div class="sc-time">1:24–1:28</div>
+      <div class="sc-note">Late run fatigue. WB break. Messy transitions.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PLAN MAY 3–9 -->
+<div class="panel" id="panel-plan">
+
+  <div class="alert alert-purple">
+    <b>No more full simulations after Sunday.</b> Sunday is the last race-equivalent session. Everything after is maintenance, activation, and recovery. The training is done — now you protect it.
+  </div>
+
+  <div class="wk-label">Final sessions</div>
+
+  <div class="day-card key">
+    <div class="ddate">Sun 3<span class="wd">May</span></div>
+    <div>
+      <div class="dtitle">8km street run — race pace together</div>
+      <div class="ddetail">
+        <b>This replaces the full simulation.</b> Run 8km on the street together at 6:00/km — KC's pace. This is the one thing you haven't done: running the full race distance together on real terrain.<br><br>
+        <b>What to focus on:</b><br>
+        · SC holds back from run 1 — practice the pace discipline you'll need on race day<br>
+        · Note how KC feels at km 5, 6, 7 — that predicts her capacity on race runs 6–8<br>
+        · Run in your race kit, including whatever shoes you'll wear on May 10<br>
+        · Test the pink shorts if you want — real running conditions, real feedback<br><br>
+        <b>After the run:</b> Do NOT add stations. Rest, eat, hydrate. The run itself is enough.
+      </div>
+    </div>
+    <div><span class="dtag tag-run">KEY RUN</span></div>
+  </div>
+
+  <div class="day-card rest">
+    <div class="ddate">Mon 4<span class="wd">May</span></div>
+    <div>
+      <div class="dtitle">Rest + lock the plan</div>
+      <div class="ddetail">Full rest. Sit down together and lock every split — write them on paper or a phone note. Wall ball rep numbers, handoff cue words, run pace word. After today, no more decisions. <b>The plan is set.</b></div>
+    </div>
+    <div><span class="dtag tag-rest">Rest</span></div>
+  </div>
+
+  <div class="day-card">
+    <div class="ddate">Tue 5<span class="wd">May</span></div>
+    <div>
+      <div class="dtitle">4-station shakeout — 25 min max</div>
+      <div class="ddetail"><b>One round only:</b> Sled push → Wall balls (locked split) → Row 500/500 → Burpee broad jumps (count distance not reps).<br>Race pace, race weights. Time transitions. <b>This is a confidence check, not a training session.</b> If something feels off, note it — don't try to fix it here.</div>
+    </div>
+    <div><span class="dtag tag-taper">Taper</span></div>
+  </div>
+
+  <div class="day-card rest">
+    <div class="ddate">Wed 6<span class="wd">May</span></div>
+    <div>
+      <div class="dtitle">Rest</div>
+      <div class="ddetail">Foam roll, stretch. <b>No wall ball practice.</b> No gym. Your wall ball is what it is — more reps now create fatigue without adaptation. Trust the work you've done.</div>
+    </div>
+    <div><span class="dtag tag-rest">Rest</span></div>
+  </div>
+
+  <div class="day-card">
+    <div class="ddate">Thu 7<span class="wd">May</span></div>
+    <div>
+      <div class="dtitle">Activation — 15 minutes only</div>
+      <div class="ddetail">10 wall balls (feel the rhythm, not the effort), 10 burpee broad jumps at max distance, 400m at race pace. Done. If legs feel heavy and flat — good. That's taper. Your body is storing energy. Do not add more sessions to shake it off.</div>
+    </div>
+    <div><span class="dtag tag-act">Activation</span></div>
+  </div>
+
+  <div class="day-card rest">
+    <div class="ddate">Fri 8<span class="wd">May</span></div>
+    <div>
+      <div class="dtitle">Rest — pack and prep</div>
+      <div class="ddetail">Pack your race bag using the kit list in the Race Day tab. Confirm bib collection. <b>Start hydrating tonight</b> — 500ml water + electrolyte tab. Urine should be pale yellow by evening.</div>
+    </div>
+    <div><span class="dtag tag-rest">Logistics</span></div>
+  </div>
+
+  <div class="day-card race-eve">
+    <div class="ddate">Sat 9<span class="wd">May</span></div>
+    <div>
+      <div class="dtitle">Race eve — protect the night</div>
+      <div class="ddetail">No gym. Easy walk only. Familiar dinner by 7pm. 500ml electrolytes in the evening. All kit laid out before bed. Verbally walk through the race — station by station, who starts, cue words, rep numbers. One time. Then stop and rest. Sleep by 10pm.</div>
+    </div>
+    <div><span class="dtag tag-rest">Pre-race</span></div>
+  </div>
+
+  <div class="day-card race-day">
+    <div class="ddate" style="color:var(--red);font-weight:700;">Sun 10<span class="wd" style="color:#D07070;">8:30am</span></div>
+    <div>
+      <div class="dtitle" style="color:var(--red);">Race Day</div>
+      <div class="ddetail"><b>Wake 5:45am. Eat by 6:00am.</b> Arrive 7:30am. Warm-up 8:00am: 5 min jog + 10 wall balls + 5 burpees. <b>Run 1 at exactly 6:00/km — no exceptions, no matter how easy it feels.</b> Trust every decision you made in training. Empty the tank on run 8.</div>
+    </div>
+    <div><span class="dtag tag-race">RACE</span></div>
+  </div>
+
+</div>
+
+<!-- WALL BALL -->
+<div class="panel" id="panel-wallball">
+
+  <div class="alert alert-red">
+    <b>After Wednesday May 6 — no more wall ball practice.</b> Practising when fatigued with imperfect form cements bad habits and adds fatigue without adaptation. Trust the progress you've already made.
+  </div>
+
+  <div class="sec">What you can still do before Wednesday</div>
+  <div class="card">
+    <div class="row"><div class="ri">Sat 3</div><div class="rt"><b>Today — rest.</b> Do not train. You've done 3 consecutive days. Let the body absorb the work.</div></div>
+    <div class="row"><div class="ri">Sun 4</div><div class="rt"><b>8km run only.</b> No wall balls. Protect the legs.</div></div>
+    <div class="row"><div class="ri">Mon 5</div><div class="rt"><b>Optional: 3 focused sets</b> of 10 reps if you feel recovered. Focus on one cue only — rhythm and breathing. Not volume.</div></div>
+    <div class="row"><div class="ri">Tue 6</div><div class="rt"><b>4-station shakeout includes wall balls</b> at race split. SC does her locked rep number (25–30). One time. Done.</div></div>
+    <div class="row"><div class="ri">Wed+</div><div class="rt"><b>No more wall ball training.</b> Trust the work. Rest the shoulders.</div></div>
+  </div>
+
+  <div class="sec">The three technique fixes that unlock more reps</div>
+  <div class="card">
+    <div class="row">
+      <div class="ri">1</div>
+      <div class="rt">
+        <b>Breathe on a rhythm, not when you remember.</b> Exhale loudly on every single throw — make it audible. Inhale as you descend into the squat. Most people hold their breath at rep 5–6 and that's exactly when the set collapses. The breathing rhythm IS the movement rhythm.
+      </div>
+    </div>
+    <div class="row">
+      <div class="ri">2</div>
+      <div class="rt">
+        <b>Catch the ball at forehead height, elbows in.</b> If the ball drifts low or your elbows flare out on the catch, you're absorbing the weight instead of using it to load the squat. The ball should land and immediately pull you down into the next rep — not stop you.
+      </div>
+    </div>
+    <div class="row">
+      <div class="ri">3</div>
+      <div class="rt">
+        <b>No pause at the bottom or top.</b> The squat is a rebound, not a sit. The moment you reach the bottom, drive up. The moment the ball leaves your hands at the top, start descending. Any pause breaks momentum and makes the next throw feel twice as heavy.
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">Race day wall ball mindset</div>
+  <div class="card">
+    <div class="row"><div class="ri">→</div><div class="rt">You are doing <b>30 reps maximum</b> (or the agreed number). KC does 70 first. Your only job is to step in cleanly when KC calls your number and complete your reps without breaking.</div></div>
+    <div class="row"><div class="ri">→</div><div class="rt"><b>Set a rhythm before KC finishes.</b> At KC's rep 60, start breathing at wall ball rhythm — inhale, exhale, inhale, exhale. Step in already warmed up mentally.</div></div>
+    <div class="row"><div class="ri">→</div><div class="rt"><b>If you must break — do it at rep 15, not rep 25.</b> A planned rest at halfway is faster than a collapse at rep 25 where your form breaks and you need a longer recovery. Break early if needed, recover in 3 breaths, finish clean.</div></div>
+    <div class="row"><div class="ri">→</div><div class="rt">This is the last station. After your 30 reps, the race is done. <b>That knowledge is fuel.</b></div></div>
+  </div>
+
+</div>
+
+<!-- RACE DAY -->
+<div class="panel" id="panel-raceday">
+
+  <div class="sec">Morning timeline</div>
+  <div class="card">
+    <div class="tl-row"><div class="tl-time">5:45am</div><div class="tl-text">Wake. Drink 200ml water immediately.</div></div>
+    <div class="tl-row"><div class="tl-time">6:00am</div><div class="tl-text"><b>Eat breakfast</b> — same meal tested before training. Nothing new.</div></div>
+    <div class="tl-row"><div class="tl-time">6:30–7:00</div><div class="tl-text">Sip 300ml water + electrolytes. Get dressed. Final kit check.</div></div>
+    <div class="tl-row"><div class="tl-time">7:30am</div><div class="tl-text"><b>Arrive venue.</b> Register, bib check. Walk the floor if permitted — know where every station is before your wave.</div></div>
+    <div class="tl-row"><div class="tl-time">8:00am</div><div class="tl-text"><b>Warm-up:</b> 5 min easy jog + 10 wall balls (rhythm only) + 5 burpee broad jumps (feel the distance). No more.</div></div>
+    <div class="tl-row"><div class="tl-time">8:15am</div><div class="tl-text">Final verbal check with KC: cue word, split numbers, handoff calls. One time. Done.</div></div>
+    <div class="tl-row"><div class="tl-time">8:30am</div><div class="tl-text"><b>GO. Run 1 at 6:00/km, no matter what.</b></div></div>
+    <div class="tl-row"><div class="tl-time">Mid-race</div><div class="tl-text">Between stations 4 and 5 only: gel or half bar if energy drops. Don't eat if you feel fine.</div></div>
+  </div>
+
+  <div class="sec">Kit — bring vs leave at home</div>
+  <div class="two-col">
+    <div class="col-card yes">
+      <div class="col-title">BRING</div>
+      <ul>
+        <li>Race bib + photo ID</li>
+        <li>Entry confirmation</li>
+        <li>Tested running shoes</li>
+        <li>Race outfit tested in training</li>
+        <li>Electrolyte tabs or drink</li>
+        <li>1 gel or half protein bar</li>
+        <li>Small towel</li>
+        <li>Water bottle (pre-race)</li>
+        <li>Hair ties + headband</li>
+        <li>Light warm layer (pre-start)</li>
+        <li>Grip gloves only if tested in sim</li>
+        <li>Deodorant (post-race)</li>
+      </ul>
+    </div>
+    <div class="col-card no">
+      <div class="col-title">LEAVE HOME</div>
+      <ul>
+        <li>New shoes untested in training</li>
+        <li>Untested grip gloves</li>
+        <li>Rings or jewellery</li>
+        <li>Earphones (not permitted)</li>
+        <li>Heavy backpack</li>
+        <li>Untested gels or supplements</li>
+        <li>Anything requiring mid-race management</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec">Race floor reminders</div>
+  <div class="card">
+    <div class="row"><div class="ri">📣</div><div class="rt"><b>One pace cue word, decided now.</b> If either athlete drifts faster than 6:00/km, the other calls it. No debating mid-run.</div></div>
+    <div class="row"><div class="ri">🔢</div><div class="rt"><b>Count wall balls out loud.</b> Both athletes know the number. KC calls "THIRTY" at rep 70 — SC steps in, no gap.</div></div>
+    <div class="row"><div class="ri">🚫</div><div class="rt"><b>Ignore other athletes.</b> HYROX mixes categories on the floor. Someone sprinting past you may be Elite. Run your race.</div></div>
+    <div class="row"><div class="ri">💬</div><div class="rt"><b>No negative language.</b> Ban "I can't", "I'm dying." Replace with "breathe", "next one", "let's go." Agreed now, enforced then.</div></div>
+    <div class="row"><div class="ri">🏁</div><div class="rt"><b>Run 8 is the only run where pace doesn't matter.</b> After wall balls — SC runs her natural 5:35/km. Leave everything on the floor.</div></div>
+  </div>
+
+</div>
+
+<!-- NUTRITION -->
+<div class="panel" id="panel-nutrition">
+
+  <div class="alert alert-green">
+    <b>Hydration starts May 8, not race morning.</b> 500ml water + electrolytes on both May 8 and 9 evenings. Pale yellow urine by bedtime = you're hydrated. Dark = you're behind and race morning water won't fix it.
+  </div>
+
+  <div class="sec">Race morning — 6:00am</div>
+  <div class="two-col">
+    <div class="col-card yes">
+      <div class="col-title">EAT THIS</div>
+      <ul>
+        <li>Oatmeal + banana + honey</li>
+        <li>White rice + egg (if your norm)</li>
+        <li>Toast + peanut butter</li>
+        <li>Small portion familiar fruit</li>
+        <li>300ml water + electrolytes</li>
+        <li>Coffee — only if always pre-training</li>
+      </ul>
+    </div>
+    <div class="col-card no">
+      <div class="col-title">AVOID</div>
+      <ul>
+        <li>High fibre foods — GI risk</li>
+        <li>Dairy-heavy meals</li>
+        <li>Anything new or untested</li>
+        <li>Heavy dim sum or fried food</li>
+        <li>Skipping breakfast entirely</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec">Race eve dinner — May 9, eat by 7pm</div>
+  <div class="two-col">
+    <div class="col-card yes">
+      <div class="col-title">EAT THIS</div>
+      <ul>
+        <li>Pasta, white rice, noodles</li>
+        <li>Lean protein — chicken, fish, tofu</li>
+        <li>Small portion cooked vegetables</li>
+        <li>Plenty of water all day</li>
+        <li>Electrolyte drink in evening</li>
+      </ul>
+    </div>
+    <div class="col-card no">
+      <div class="col-title">AVOID</div>
+      <ul>
+        <li>Alcohol</li>
+        <li>Very spicy or rich food</li>
+        <li>New restaurant or cuisine</li>
+        <li>Eating past 8:30pm</li>
+        <li>Overeating</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec">During the race</div>
+  <div class="card">
+    <div class="row"><div class="ri">💧</div><div class="rt"><b>Sip water at every station.</b> HYROX provides water stations. Don't chug — consistent small sips.</div></div>
+    <div class="row"><div class="ri">⚡</div><div class="rt"><b>Gel or half bar between stations 4 and 5 only</b> — if energy visibly drops. If you feel fine, don't eat. GI risk increases when eating unnecessarily mid-race.</div></div>
+    <div class="row"><div class="ri">🧂</div><div class="rt"><b>Electrolytes over plain water</b> in Hong Kong humidity. Sodium prevents cramping and helps fluid retention. Have a tab ready.</div></div>
+  </div>
+
+</div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
