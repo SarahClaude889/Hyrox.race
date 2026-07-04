@@ -114,7 +114,7 @@ ul{list-style:none;}
 h1,h2,h3,h4{text-wrap:balance;font-weight:600;}
 :focus-visible{outline:2px solid var(--glow);outline-offset:3px;}
 @media (prefers-reduced-motion: reduce){
-  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
+  *{animation-duration:.001ms !important;animation-delay:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
 }
 
 .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
@@ -160,9 +160,37 @@ h1,h2,h3,h4{text-wrap:balance;font-weight:600;}
 .btn-ghost:hover{border-color:var(--tide);color:var(--tide);}
 .nav-toggle{display:none;font-size:22px;line-height:1;padding:6px;color:var(--ink);}
 
+/* ---------- signature intro ---------- */
+.signature{
+  padding:56px 0 8px;
+  background-image:radial-gradient(circle, var(--rule) 1px, transparent 1px);
+  background-size:26px 26px;
+  background-position:-13px -13px;
+}
+.signature-inner{position:relative;max-width:760px;margin:0 auto;padding:56px 20px 40px;text-align:center;}
+.signature-stroke{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+.signature-stroke path{fill:none;stroke:var(--glow);stroke-width:10;stroke-linecap:round;stroke-linejoin:round;opacity:.85;}
+.signature-text{position:relative;z-index:1;}
+.signature-name{
+  font-family:var(--fd);font-style:italic;font-weight:400;
+  font-size:clamp(42px,7.5vw,86px);letter-spacing:.005em;color:var(--ink);
+  opacity:0;transform:translateY(14px);
+  animation:sigFadeUp .8s ease forwards;animation-delay:1.3s;
+}
+.signature-sub{
+  font-family:var(--fm);font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);
+  margin-top:16px;opacity:0;
+  animation:sigFadeUp .8s ease forwards;animation-delay:1.8s;
+}
+@keyframes sigFadeUp{to{opacity:1;transform:translateY(0);}}
+@media (max-width:860px){
+  .signature{padding:40px 0 0;}
+  .signature-inner{padding:36px 16px 28px;}
+}
+
 /* ---------- hero ---------- */
 .hero{
-  padding:76px 0 88px;
+  padding:24px 0 88px;
   background-image:radial-gradient(circle, var(--rule) 1px, transparent 1px);
   background-size:26px 26px;
   background-position:-13px -13px;
@@ -362,7 +390,42 @@ footer{padding:44px 0;border-top:1px solid var(--rule);}
 
 <main id="main">
 
-  <section class="hero" id="top">
+  <section class="signature" id="top">
+    <div class="wrap signature-inner">
+      <svg class="signature-stroke" viewBox="0 0 1200 780" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <path id="sig-path" d="M 950 90
+                                C 1250 300, 1050 480, 600 520
+                                C 250 520, 150 480, 150 300
+                                C 150 120, 350 80, 600 80
+                                C 850 80, 950 180, 950 180"/>
+      </svg>
+      <div class="signature-text">
+        <h1 class="signature-name">Sarah Chung</h1>
+        <p class="signature-sub">Learning &amp; Talent Development · Facilitator</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function(){
+    var path = document.getElementById('sig-path');
+    if(!path || !path.getTotalLength) return;
+    var len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = len;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      path.style.strokeDashoffset = '0';
+      return;
+    }
+    requestAnimationFrame(function(){
+      path.style.transition = 'stroke-dashoffset 2.4s cubic-bezier(0.43,0.13,0.23,0.96)';
+      requestAnimationFrame(function(){
+        path.style.strokeDashoffset = '0';
+      });
+    });
+  })();
+  </script>
+
+  <section class="hero">
     <div class="wrap hero-grid">
       <div>
         <p class="eyebrow hero-eyebrow">Learning &amp; Talent Development · Facilitation for Human Change</p>
