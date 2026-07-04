@@ -134,6 +134,38 @@ h1,h2,h3,h4{text-wrap:balance;font-weight:600;}
 .skip-link{position:absolute;left:-9999px;top:0;background:var(--glow);color:var(--ground);padding:10px 16px;z-index:999;font-weight:600;}
 .skip-link:focus{left:12px;top:12px;}
 
+/* ---------- entry gate ---------- */
+#gate{
+  position:fixed;inset:0;z-index:1000;
+  background:#000;
+  display:flex;align-items:center;justify-content:center;
+  opacity:1;transition:opacity .65s ease;
+}
+#gate.gate-hidden{opacity:0;pointer-events:none;}
+#gate-canvas{position:absolute;inset:0;width:100%;height:100%;}
+.gate-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:26px;padding:0 24px;text-align:center;}
+.gate-name{
+  font-family:var(--fd);font-style:italic;font-weight:400;
+  font-size:clamp(34px,6.5vw,68px);color:var(--ink);letter-spacing:.005em;
+  opacity:0;transform:translateY(10px);
+  animation:sigFadeUp 1s ease forwards;animation-delay:.3s;
+}
+.gate-enter{
+  background:none;cursor:pointer;
+  border:1px solid var(--glow);color:var(--glow);border-radius:2px;
+  font-family:var(--fm);font-size:13px;letter-spacing:.28em;text-transform:uppercase;
+  padding:13px 34px;
+  transition:background .2s ease,color .2s ease;
+}
+.gate-enter:hover,.gate-enter:focus-visible{background:var(--glow);color:var(--ground);}
+.gate-enter-fade{display:block;opacity:0;animation:sigFadeUp 1s ease forwards;animation-delay:1.6s;}
+.gate-enter-pulse{display:block;animation:gatePulse 2.2s ease-in-out infinite;}
+@keyframes gatePulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+.gate-hint{
+  font-family:var(--fm);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);
+  opacity:0;animation:sigFadeUp 1s ease forwards;animation-delay:2s;
+}
+
 /* ---------- header ---------- */
 .site-header{
   position:sticky;top:0;z-index:50;
@@ -168,19 +200,17 @@ h1,h2,h3,h4{text-wrap:balance;font-weight:600;}
   background-position:-13px -13px;
 }
 .signature-inner{position:relative;max-width:760px;margin:0 auto;padding:56px 20px 40px;text-align:center;}
-.signature-stroke{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
-.signature-stroke path{fill:none;stroke:var(--glow);stroke-width:10;stroke-linecap:round;stroke-linejoin:round;opacity:.85;}
 .signature-text{position:relative;z-index:1;}
 .signature-name{
   font-family:var(--fd);font-style:italic;font-weight:400;
   font-size:clamp(42px,7.5vw,86px);letter-spacing:.005em;color:var(--ink);
   opacity:0;transform:translateY(14px);
-  animation:sigFadeUp .8s ease forwards;animation-delay:1.3s;
+  animation:sigFadeUp .8s ease forwards;animation-delay:.15s;
 }
 .signature-sub{
   font-family:var(--fm);font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);
   margin-top:16px;opacity:0;
-  animation:sigFadeUp .8s ease forwards;animation-delay:1.8s;
+  animation:sigFadeUp .8s ease forwards;animation-delay:.55s;
 }
 @keyframes sigFadeUp{to{opacity:1;transform:translateY(0);}}
 @media (max-width:860px){
@@ -367,6 +397,27 @@ footer{padding:44px 0;border-top:1px solid var(--rule);}
 </style>
 </head>
 <body>
+
+<div id="gate" role="dialog" aria-modal="true" aria-label="Entrance">
+  <canvas id="gate-canvas" aria-hidden="true"></canvas>
+  <div class="gate-content">
+    <p class="gate-name">Sarah Chung</p>
+    <span class="gate-enter-fade">
+      <button type="button" id="gate-enter" class="gate-enter"><span class="gate-enter-pulse">Enter</span></button>
+    </span>
+    <p class="gate-hint">or press Enter ↵</p>
+  </div>
+</div>
+<noscript><style>#gate{display:none !important;}</style></noscript>
+<script>
+(function(){
+  if (sessionStorage.getItem('sc-entered') === '1') {
+    var g = document.getElementById('gate');
+    if (g) g.parentNode.removeChild(g);
+  }
+})();
+</script>
+
 <a class="skip-link" href="#main">Skip to content</a>
 
 <!--
@@ -374,6 +425,7 @@ footer{padding:44px 0;border-top:1px solid var(--rule);}
   search for "[" to find and replace them all before publishing.
 -->
 
+<div id="site">
 <header class="site-header">
   <div class="wrap header-row">
     <a class="brand" href="#top">Sarah Chung<span>.</span></a>
@@ -392,38 +444,12 @@ footer{padding:44px 0;border-top:1px solid var(--rule);}
 
   <section class="signature" id="top">
     <div class="wrap signature-inner">
-      <svg class="signature-stroke" viewBox="0 0 1200 780" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-        <path id="sig-path" d="M 950 90
-                                C 1250 300, 1050 480, 600 520
-                                C 250 520, 150 480, 150 300
-                                C 150 120, 350 80, 600 80
-                                C 850 80, 950 180, 950 180"/>
-      </svg>
       <div class="signature-text">
         <h1 class="signature-name">Sarah Chung</h1>
         <p class="signature-sub">Learning &amp; Talent Development · Facilitator</p>
       </div>
     </div>
   </section>
-  <script>
-  (function(){
-    var path = document.getElementById('sig-path');
-    if(!path || !path.getTotalLength) return;
-    var len = path.getTotalLength();
-    path.style.strokeDasharray = len;
-    path.style.strokeDashoffset = len;
-    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      path.style.strokeDashoffset = '0';
-      return;
-    }
-    requestAnimationFrame(function(){
-      path.style.transition = 'stroke-dashoffset 2.4s cubic-bezier(0.43,0.13,0.23,0.96)';
-      requestAnimationFrame(function(){
-        path.style.strokeDashoffset = '0';
-      });
-    });
-  })();
-  </script>
 
   <section class="hero">
     <div class="wrap hero-grid">
@@ -683,6 +709,7 @@ footer{padding:44px 0;border-top:1px solid var(--rule);}
     </div>
   </div>
 </footer>
+</div>
 
 <script>
 (function(){
@@ -699,6 +726,114 @@ footer{padding:44px 0;border-top:1px solid var(--rule);}
       toggle.setAttribute('aria-expanded','false');
     });
   });
+})();
+</script>
+
+<script>
+(function(){
+  var gate = document.getElementById('gate');
+  if(!gate) return;
+
+  var site = document.getElementById('site');
+  var canvas = document.getElementById('gate-canvas');
+  var enterBtn = document.getElementById('gate-enter');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (site) site.setAttribute('inert', '');
+  document.documentElement.style.overflow = 'hidden';
+  if (enterBtn) enterBtn.focus();
+
+  var raf = null;
+  var resizeHandler = null;
+
+  function startAnimation(){
+    var ctx = canvas.getContext('2d');
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w, h, maxR, particles;
+
+    function spawn(p){
+      p.angle0 = Math.random() * Math.PI * 2;
+      p.speed = 0.6 + Math.random() * 0.9;
+      p.dur = 4 + Math.random() * 3;
+      p.life = 0;
+      p.baseSize = 0.6 + Math.random() * 1.6;
+    }
+
+    function resize(){
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      maxR = Math.hypot(w, h) / 2 + 60;
+      var n = Math.max(220, Math.min(700, Math.floor((w * h) / 2400)));
+      particles = [];
+      for (var i = 0; i < n; i++){
+        var p = {};
+        spawn(p);
+        p.life = Math.random() * p.dur;
+        particles.push(p);
+      }
+    }
+    resize();
+    resizeHandler = resize;
+    window.addEventListener('resize', resizeHandler);
+
+    var last = performance.now();
+    function frame(now){
+      var dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      ctx.fillStyle = 'rgba(0,0,0,0.22)';
+      ctx.fillRect(0, 0, w, h);
+      ctx.save();
+      ctx.translate(w / 2, h / 2);
+      ctx.fillStyle = '#fff';
+      for (var i = 0; i < particles.length; i++){
+        var p = particles[i];
+        p.life += dt;
+        var t = p.life / p.dur;
+        if (t >= 1){ spawn(p); t = 0; }
+        var r = t * t * maxR;
+        var angle = p.angle0 + p.life * p.speed;
+        var x = r * Math.cos(angle);
+        var y = r * Math.sin(angle);
+        var size = p.baseSize * (0.4 + 1.3 * t);
+        var alpha = t < 0.08 ? t / 0.08 : (t > 0.85 ? (1 - t) / 0.15 : 1);
+        ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+      ctx.globalAlpha = 1;
+      raf = requestAnimationFrame(frame);
+    }
+    raf = requestAnimationFrame(frame);
+  }
+
+  function stopAnimation(){
+    if (raf) cancelAnimationFrame(raf);
+    if (resizeHandler) window.removeEventListener('resize', resizeHandler);
+  }
+
+  if (canvas && !reduced) startAnimation();
+
+  function dismiss(){
+    stopAnimation();
+    gate.classList.add('gate-hidden');
+    if (site) site.removeAttribute('inert');
+    document.documentElement.style.overflow = '';
+    try { sessionStorage.setItem('sc-entered', '1'); } catch (e) {}
+    window.removeEventListener('keydown', onKey);
+    setTimeout(function(){
+      if (gate.parentNode) gate.parentNode.removeChild(gate);
+    }, 700);
+  }
+  function onKey(e){
+    if (e.key === 'Enter') dismiss();
+  }
+  window.addEventListener('keydown', onKey);
+  if (enterBtn) enterBtn.addEventListener('click', dismiss);
 })();
 </script>
 </body>
