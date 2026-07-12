@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Sarah Chung — "the first drop": the moment before the ripple, all possibility -->
+  <path d="M 32 5 C 35.5 11, 40 15.5, 40 21 A 8 8 0 1 1 24 21 C 24 15.5, 28.5 11, 32 5 Z" fill="#E9B950"/>
+  <ellipse cx="32" cy="45" rx="9" ry="3.4" fill="none" stroke="#E9B950" stroke-width="2.6" opacity=".85"/>
+  <ellipse cx="32" cy="46.5" rx="17" ry="6" fill="none" stroke="#E9B950" stroke-width="2.3" opacity=".45"/>
+  <ellipse cx="32" cy="48" rx="25" ry="8.6" fill="none" stroke="#E9B950" stroke-width="2" opacity=".2"/>
+</svg>

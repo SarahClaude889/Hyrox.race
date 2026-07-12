@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Sarah Chung — "dawn over water": hope rising, arcs above, ripples reflected below -->
+  <path d="M 25 37 A 7 7 0 0 1 39 37 Z" fill="#E9B950"/>
+  <path d="M 18 37 A 14 14 0 0 1 46 37" fill="none" stroke="#E9B950" stroke-width="3" stroke-linecap="round" opacity=".65"/>
+  <path d="M 10.5 37 A 21.5 21.5 0 0 1 53.5 37" fill="none" stroke="#E9B950" stroke-width="2.6" stroke-linecap="round" opacity=".32"/>
+  <line x1="6" y1="37" x2="58" y2="37" stroke="#E9B950" stroke-width="2.6" stroke-linecap="round" opacity=".9"/>
+  <path d="M 22 45 A 24 12 0 0 0 42 45" fill="none" stroke="#E9B950" stroke-width="2.4" stroke-linecap="round" opacity=".45"/>
+  <path d="M 26 52 A 18 8 0 0 0 38 52" fill="none" stroke="#E9B950" stroke-width="2.2" stroke-linecap="round" opacity=".22"/>
+</svg>
