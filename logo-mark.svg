@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Sarah Chung — ripple mark: a drop-point with expanding rings, each broken open as it travels -->
+  <circle cx="32" cy="32" r="6" fill="#F3E308"/>
+  <path d="M 44.73 27.36 A 13.55 13.55 0 1 0 44.73 36.64" fill="none" stroke="#F3E308" stroke-width="3.2" stroke-linecap="round" opacity=".85"/>
+  <path d="M 24.5 52.55 A 22 22 0 1 0 24.5 11.45" fill="none" stroke="#F3E308" stroke-width="2.8" stroke-linecap="round" opacity=".48"/>
+  <path d="M 43.6 60.4 A 30.6 30.6 0 0 0 43.6 3.6" fill="none" stroke="#F3E308" stroke-width="2.4" stroke-linecap="round" opacity=".24"/>
+</svg>
