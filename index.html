@@ -51,7 +51,7 @@
   --ground-raised:#131A36;
   --ground-sunk:#060A18;
   --ink:#F2EDE0;
-  --muted:#9AA3BF;
+  --muted:#AEB8D6;
   --rule:#232B4E;
   --gold:#E9B950;
   --gold-soft:#F5D488;
@@ -229,6 +229,23 @@ section{padding:104px 0;}
 .fact-k{font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:3px;flex-shrink:0;}
 .fact-v{font-weight:600;text-align:right;font-size:14.5px;}
 
+/* ---------- story ---------- */
+.story-section{padding-top:0;}
+.story-inner{max-width:700px;margin:0 auto;}
+.story-inner .eyebrow{margin-bottom:18px;}
+.story-inner h2{font-family:var(--fd);font-weight:500;font-size:clamp(30px,3.8vw,44px);margin-bottom:30px;}
+.story-copy p{font-size:17px;line-height:1.75;color:#D9DEEB;margin-bottom:20px;}
+.story-copy p:first-of-type::first-letter{
+  font-family:var(--fd);font-size:3.3em;line-height:.82;
+  float:left;padding:8px 12px 0 0;color:var(--gold);
+}
+.story-key{
+  font-family:var(--fd);font-style:italic;font-weight:400;
+  font-size:21px;line-height:1.5;color:var(--ink);
+  border-left:2px solid var(--gold);padding-left:20px;margin:30px 0;
+}
+.story-close{font-weight:600;color:var(--ink);}
+
 /* ---------- my why ---------- */
 .why-section{
   background:var(--ground-sunk);
@@ -308,12 +325,29 @@ section{padding:104px 0;}
 .cred-item b{display:block;font-size:15px;font-weight:600;margin-bottom:3px;}
 .cred-item span{font-size:13px;color:var(--muted);}
 
-/* ---------- approach ---------- */
-.approach-list{border-top:1px solid var(--rule);}
-.ap-row{display:grid;grid-template-columns:72px 1fr;gap:22px;padding:30px 0;border-bottom:1px solid var(--rule);}
-.ap-num{font-family:var(--fd);font-size:26px;font-weight:600;color:var(--gold);}
-.ap-body h3{font-family:var(--fd);font-weight:600;font-size:20px;margin-bottom:6px;}
-.ap-body p{color:var(--muted);font-size:15.5px;max-width:62ch;}
+/* ---------- journey (process) ---------- */
+.journey-grid{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+.journey-grid::before{
+  content:"";position:absolute;top:58px;left:3%;right:3%;height:1px;
+  background:linear-gradient(90deg, transparent, var(--rule) 10%, var(--rule) 90%, transparent);
+}
+.j-card{
+  position:relative;
+  background:var(--ground-raised);border:1px solid var(--rule);border-radius:10px;
+  padding:30px 26px 26px;
+  display:flex;flex-direction:column;
+  transition:opacity .8s ease, transform .8s ease, border-color .8s ease, box-shadow .8s ease;
+}
+.j-card.pre{opacity:.18;transform:translateY(16px);}
+.j-card.lit{opacity:1;transform:none;border-color:rgba(233,185,80,.4);box-shadow:0 14px 44px -22px rgba(233,185,80,.25);}
+.j-node{width:44px;height:44px;margin-bottom:20px;color:var(--gold);}
+.j-stage{font-family:var(--fd);font-weight:600;font-size:23px;margin-bottom:8px;}
+.j-meaning{color:#D9DEEB;font-size:14.5px;line-height:1.65;margin-bottom:20px;}
+.j-outcome{
+  margin-top:auto;padding-top:14px;border-top:1px dashed var(--rule);
+  font-size:13px;line-height:1.6;color:var(--gold-soft);
+}
+.j-outcome b{display:block;font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
 
 /* ---------- case studies ---------- */
 .case-note{font-size:13.5px;font-style:italic;color:var(--muted);margin:-36px 0 36px;max-width:660px;}
@@ -347,11 +381,24 @@ section{padding:104px 0;}
 }
 .connect-ring{
   position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);
-  border-radius:50%;border:1px solid rgba(242,237,224,.10);pointer-events:none;
+  width:1200px;height:1200px;
+  border-radius:50%;border:1px solid rgba(148,222,222,.14);pointer-events:none;
 }
-.connect-ring.r1{width:620px;height:620px;}
-.connect-ring.r2{width:960px;height:960px;border-color:rgba(242,237,224,.06);}
-.connect-ring.r3{width:1340px;height:1340px;border-color:rgba(242,237,224,.04);}
+.connect-ring.r1{transform:translate(-50%,-50%) scale(.5);}
+.connect-ring.r2{transform:translate(-50%,-50%) scale(.78);border-color:rgba(148,222,222,.09);}
+.connect-ring.r3{transform:translate(-50%,-50%) scale(1.06);border-color:rgba(148,222,222,.05);}
+@media (prefers-reduced-motion: no-preference){
+  .connect-ring{animation:connectRipple 16s linear infinite;}
+  .connect-ring.r1{animation-delay:0s;}
+  .connect-ring.r2{animation-delay:-5.33s;}
+  .connect-ring.r3{animation-delay:-10.66s;}
+  @keyframes connectRipple{
+    0%{transform:translate(-50%,-50%) scale(.3);opacity:0;}
+    10%{opacity:1;}
+    75%{opacity:.45;}
+    100%{transform:translate(-50%,-50%) scale(1.3);opacity:0;}
+  }
+}
 .connect-section .wrap{position:relative;}
 .connect-section .eyebrow{color:var(--teal);margin-bottom:24px;}
 .connect-title{
@@ -390,6 +437,8 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
 /* ---------- responsive ---------- */
 @media (max-width:1024px){
   .flip-grid{grid-template-columns:repeat(2,1fr);}
+  .journey-grid{grid-template-columns:repeat(2,1fr);}
+  .journey-grid::before{display:none;}
 }
 @media (max-width:860px){
   .main-nav{position:fixed;inset:84px 0 0 0;background:var(--ground);flex-direction:column;align-items:flex-start;padding:28px;gap:24px;border-top:1px solid var(--rule);transform:translateX(100%);transition:transform .2s ease;}
@@ -410,6 +459,7 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
 }
 @media (max-width:560px){
   .flip-grid{grid-template-columns:1fr;}
+  .journey-grid{grid-template-columns:1fr;}
   .ripple-legend{grid-template-columns:1fr;}
   .hero-tags{flex-direction:column;gap:12px;}
   .hero-tags::before,.hero-tags::after{width:100%;}
@@ -519,6 +569,22 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
         <div class="fact-row"><span class="fact-k">Languages</span><span class="fact-v">English · Cantonese · Mandarin</span></div>
         <div class="fact-row"><span class="fact-k">Education</span><span class="fact-v">BBA, Human Resource Management</span></div>
         <div class="fact-row"><span class="fact-k">Based in</span><span class="fact-v">United Kingdom</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="story-section" id="story">
+    <div class="wrap story-inner">
+      <p class="eyebrow">My story</p>
+      <h2>Where the ripple began</h2>
+      <div class="story-copy">
+        <p>When I was 19, I travelled alone through Morocco. In a small rural town, I visited a textile workshop and noticed a young woman working quietly in the room. She seemed reserved, perhaps a little tired. We had no shared language, but something in me wanted to reach across the distance.</p>
+        <p>So we began communicating in the only ways we could — through gestures, expressions and curiosity.</p>
+        <p>Before leaving, I gave her a Hong Kong two-dollar coin. Its unusual shape and bauhinia flower caught her attention, and for the first time, she smiled. In return, she took my scarf and carefully wrapped it around my head in the Moroccan style. For a brief moment, two strangers from very different worlds met one another without needing many words.</p>
+        <p class="story-key">I did not change her life, and I never learned her story. But that small exchange changed something in the space between us — and it stayed with me.</p>
+        <p>Years later, I began to recognise the same pattern in learning and facilitation. Meaningful change does not always begin with a grand intervention. Sometimes it begins when someone feels noticed, encounters a different perspective or receives a small invitation to respond in a new way.</p>
+        <p>We may never know where that moment travels next. A question, a gesture or a seed planted today may influence another conversation, relationship or decision tomorrow.</p>
+        <p class="story-close">That is why I do this work: to create the conditions for small human shifts that can continue rippling beyond the room.</p>
       </div>
     </div>
   </section>
@@ -683,26 +749,48 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
   <section id="approach">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow">04 · Process</p>
-        <h2>How a programme comes together</h2>
-        <p>The same four moves, whether it's a single workshop or a multi-cohort rollout.</p>
+        <p class="eyebrow">04 · The rhythm</p>
+        <h2>From listening deeply to creating lasting movement</h2>
+        <p>Every engagement is different, but the rhythm remains: understand what truly matters, design for real people, create space to practise, and learn from what changes.</p>
       </div>
-      <div class="approach-list">
-        <div class="ap-row">
-          <div class="ap-num">01</div>
-          <div class="ap-body"><h3>Discover</h3><p>Stakeholder interviews, performance data, and a gap analysis to find out what's actually breaking — I've run 20+ structured executive interviews on a single engagement.</p></div>
+      <div class="journey-grid" id="journey">
+        <div class="j-card">
+          <svg class="j-node" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+            <circle cx="22" cy="22" r="5" fill="currentColor"/>
+          </svg>
+          <h3 class="j-stage">Listen</h3>
+          <p class="j-meaning">Understand the people, the context and the real challenge — 20+ structured interviews on a single engagement, if that's what it takes.</p>
+          <p class="j-outcome"><b>What you leave with</b>The problem behind the request, named.</p>
         </div>
-        <div class="ap-row">
-          <div class="ap-num">02</div>
-          <div class="ap-body"><h3>Design</h3><p>Learning objectives, session architecture, and materials built around how adults actually learn and retain skills.</p></div>
+        <div class="j-card">
+          <svg class="j-node" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+            <circle cx="22" cy="22" r="5" fill="currentColor"/>
+            <circle cx="22" cy="22" r="13" stroke="currentColor" stroke-width="1.5" opacity=".7"/>
+          </svg>
+          <h3 class="j-stage">Shape</h3>
+          <p class="j-meaning">Turn insight into a purposeful learning experience, built around how adults actually learn and retain skills.</p>
+          <p class="j-outcome"><b>What you leave with</b>A design people recognise themselves in.</p>
         </div>
-        <div class="ap-row">
-          <div class="ap-num">03</div>
-          <div class="ap-body"><h3>Deliver</h3><p>Facilitation in the room or on the call — practice, live feedback, and real scenarios instead of lecture time.</p></div>
+        <div class="j-card">
+          <svg class="j-node" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+            <circle cx="22" cy="22" r="5" fill="currentColor"/>
+            <circle cx="22" cy="22" r="13" stroke="currentColor" stroke-width="1.5" opacity=".7"/>
+            <circle cx="22" cy="22" r="20" stroke="currentColor" stroke-width="1.3" opacity=".4"/>
+          </svg>
+          <h3 class="j-stage">Bring alive</h3>
+          <p class="j-meaning">Create participation, practice and honest conversation — real scenarios and live feedback instead of lecture time.</p>
+          <p class="j-outcome"><b>What you leave with</b>A room that talks, tries and commits.</p>
         </div>
-        <div class="ap-row">
-          <div class="ap-num">04</div>
-          <div class="ap-body"><h3>Echo</h3><p>Follow-up on what actually changed — behaviour, confidence, results at 30, 60 and 90 days — fed straight back into the next iteration.</p></div>
+        <div class="j-card">
+          <svg class="j-node" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+            <circle cx="22" cy="22" r="5" fill="currentColor"/>
+            <circle cx="22" cy="22" r="12" stroke="currentColor" stroke-width="1.5" opacity=".75"/>
+            <circle cx="22" cy="22" r="17" stroke="currentColor" stroke-width="1.4" opacity=".45"/>
+            <circle cx="22" cy="22" r="21.5" stroke="currentColor" stroke-width="1.2" opacity=".22"/>
+          </svg>
+          <h3 class="j-stage">Echo</h3>
+          <p class="j-meaning">Notice what changed and carry the learning forward — behaviour, confidence and results at 30, 60 and 90 days.</p>
+          <p class="j-outcome"><b>What you leave with</b>Evidence the shift is still travelling.</p>
         </div>
       </div>
     </div>
@@ -843,6 +931,34 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
 </script>
 
 <script>
+/* Journey cards illuminate in sequence as the section scrolls into view. */
+(function(){
+  var grid = document.getElementById('journey');
+  if(!grid) return;
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.j-card'));
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced || !('IntersectionObserver' in window)){
+    cards.forEach(function(c){ c.classList.add('lit'); });
+    return;
+  }
+  cards.forEach(function(c){ c.classList.add('pre'); });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (!entry.isIntersecting) return;
+      io.disconnect();
+      cards.forEach(function(c, i){
+        setTimeout(function(){
+          c.classList.remove('pre');
+          c.classList.add('lit');
+        }, 260 * i);
+      });
+    });
+  }, { threshold: 0.3 });
+  io.observe(grid);
+})();
+</script>
+
+<script>
 /* Aurora ripple — hero background. Slow glowing arcs of gold, teal and
    violet radiating from off-canvas right, like image-1's light ripples.
    Drawn small and upscaled for a soft, blurred look; a handful of bright
@@ -855,7 +971,7 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
   var ctx = canvas.getContext('2d');
   var off = document.createElement('canvas');
   var octx = off.getContext('2d');
-  var SCALE = 0.2;
+  var SCALE = 0.48;
   var COLORS = [[255,209,102],[78,230,216],[186,148,255],[240,168,200]];
   var w, h, ow, oh, arcs = [], sparks = [];
 
@@ -866,11 +982,11 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
       arcs.push({
         rf: 0.14 + 0.9 * (i / N) + Math.random() * 0.05,
         speed: (0.02 + Math.random() * 0.035) * (i % 2 ? 1 : -1),
-        width: 30 + Math.random() * 60,
+        width: 26 + Math.random() * 52,
         span: Math.PI * (0.45 + Math.random() * 0.75),
         phase: Math.random() * Math.PI * 2,
         color: COLORS[i % 4],
-        alpha: 0.2 + Math.random() * 0.22
+        alpha: 0.26 + Math.random() * 0.26
       });
     }
     sparks = [];
@@ -879,7 +995,7 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
         rf: 0.16 + Math.random() * 0.8,
         a: Math.random() * Math.PI * 2,
         speed: (0.015 + Math.random() * 0.03) * (j % 2 ? 1 : -1),
-        size: 1.4 + Math.random() * 2.4,
+        size: 1.7 + Math.random() * 2.6,
         color: COLORS[j % 4]
       });
     }
