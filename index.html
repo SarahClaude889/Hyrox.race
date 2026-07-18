@@ -220,20 +220,35 @@ section{padding:104px 0;}
 .section-head h2{font-family:var(--fd);font-weight:500;font-size:clamp(30px,3.8vw,44px);letter-spacing:.005em;}
 .section-head p{color:var(--muted);margin-top:16px;font-size:16.5px;}
 
-/* ---------- about ---------- */
-.about-grid{display:grid;grid-template-columns:1.3fr .8fr;gap:70px;}
-.about-copy p{margin-bottom:18px;font-size:17px;color:var(--ink);max-width:62ch;}
-.about-copy p:last-child{margin-bottom:0;}
+/* ---------- story & why (merged) ---------- */
+.story-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:64px;align-items:start;}
+.story-side{display:flex;flex-direction:column;gap:28px;}
+.photo-slot{
+  border:1px dashed var(--rule);border-radius:12px;
+  aspect-ratio:4/3;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  color:var(--muted);font-size:13px;letter-spacing:.04em;
+  background:radial-gradient(ellipse 70% 60% at 50% 40%, rgba(233,185,80,.05), transparent 70%);
+}
+.story-photo{width:100%;border-radius:12px;border:1px solid var(--rule);}
 .fact-list{border-top:1px solid var(--rule);}
-.fact-row{display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid var(--rule);}
+.fact-row{display:flex;justify-content:space-between;gap:16px;padding:15px 0;border-bottom:1px solid var(--rule);}
 .fact-k{font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:3px;flex-shrink:0;}
 .fact-v{font-weight:600;text-align:right;font-size:14.5px;}
+.story-more{margin-top:6px;}
+.story-more summary{
+  cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);
+  border:1px solid var(--rule);border-radius:999px;padding:11px 22px;
+  transition:border-color .15s,background .15s;
+}
+.story-more summary::-webkit-details-marker{display:none;}
+.story-more summary::after{content:"+";font-size:15px;}
+.story-more[open] summary::after{content:"–";}
+.story-more summary:hover{border-color:var(--gold);background:rgba(233,185,80,.06);}
+.story-more-body{padding-top:20px;}
 
 /* ---------- story ---------- */
-.story-section{padding-top:0;}
-.story-inner{max-width:700px;margin:0 auto;}
-.story-inner .eyebrow{margin-bottom:18px;}
-.story-inner h2{font-family:var(--fd);font-weight:500;font-size:clamp(30px,3.8vw,44px);margin-bottom:30px;}
 .story-copy p{font-size:17px;line-height:1.75;color:#D9DEEB;margin-bottom:20px;}
 .story-copy p:first-of-type::first-letter{
   font-family:var(--fd);font-size:3.3em;line-height:.82;
@@ -246,44 +261,9 @@ section{padding:104px 0;}
 }
 .story-close{font-weight:600;color:var(--ink);}
 
-/* ---------- my why ---------- */
-.why-section{
-  background:var(--ground-sunk);
-  border-top:1px solid var(--rule);
-  border-bottom:1px solid var(--rule);
-  text-align:center;
-}
-.why-quote{
-  font-family:var(--fd);font-style:italic;font-weight:400;
-  font-size:clamp(24px,3.4vw,38px);line-height:1.4;
-  max-width:21em;margin:0 auto 26px;
-  color:var(--ink);
-}
-.why-quote .qmark{color:var(--gold);}
-.why-text{max-width:56ch;margin:0 auto 58px;color:var(--muted);font-size:17px;}
-.ripple-stage{position:relative;width:min(340px,70vw);aspect-ratio:1;margin:0 auto 58px;}
-.rr{position:absolute;top:50%;left:50%;border-radius:50%;transform:translate(-50%,-50%);}
-.rr1{width:7%;height:7%;background:var(--gold);box-shadow:0 0 30px 8px rgba(233,185,80,.45);}
-.rr2{width:34%;height:34%;border:1px solid var(--gold);opacity:.7;animation:ripplePulse 8s ease-in-out infinite;}
-.rr3{width:64%;height:64%;border:1px solid var(--teal);opacity:.5;animation:ripplePulse 8s ease-in-out infinite 1.6s;}
-.rr4{width:95%;height:95%;border:1px solid var(--violet);opacity:.35;animation:ripplePulse 8s ease-in-out infinite 3.2s;}
-@keyframes ripplePulse{
-  0%,100%{transform:translate(-50%,-50%) scale(1);}
-  50%{transform:translate(-50%,-50%) scale(1.045);}
-}
-.ripple-legend{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);text-align:left;}
-.rl-cell{background:var(--ground-sunk);padding:26px 26px 28px;}
-.rl-swatch{border-radius:50%;margin-bottom:16px;}
-.rl-swatch.s1{width:10px;height:10px;background:var(--gold);}
-.rl-swatch.s2{width:16px;height:16px;border:1px solid var(--gold);opacity:.85;}
-.rl-swatch.s3{width:22px;height:22px;border:1px solid var(--teal);opacity:.7;}
-.rl-swatch.s4{width:28px;height:28px;border:1px solid var(--violet);opacity:.55;}
-.rl-cell b{display:block;font-family:var(--fd);font-size:17px;font-weight:600;color:var(--ink);margin-bottom:5px;}
-.rl-cell small{font-size:13px;color:var(--muted);line-height:1.6;display:block;}
-
 /* ---------- services (flip cards) ---------- */
-.flip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
-.flip-card{perspective:1400px;height:400px;}
+.flip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.flip-card{perspective:1400px;height:420px;}
 .flip-inner{
   position:relative;width:100%;height:100%;
   transform-style:preserve-3d;
@@ -315,6 +295,20 @@ section{padding:104px 0;}
 .flip-back h4{font-family:var(--fd);font-weight:600;font-size:15.5px;margin-bottom:4px;color:var(--gold-soft);}
 .flip-back p{color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:14px;}
 .flip-back .flip-btn{margin-top:auto;}
+.flip-back ul{margin:0 0 14px;}
+.flip-back li{
+  position:relative;padding-left:18px;margin-bottom:8px;
+  color:#D9DEEB;font-size:13.5px;line-height:1.55;
+}
+.flip-back li::before{content:"";position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:50%;border:1px solid var(--gold);}
+.flip-for{font-size:14px;color:#D9DEEB;line-height:1.65;margin-bottom:14px;}
+
+/* ---------- section textures ---------- */
+.dotted{
+  background-image:radial-gradient(circle, var(--rule) 1px, transparent 1px);
+  background-size:26px 26px;background-position:-13px -13px;
+}
+.washed{background:radial-gradient(ellipse 55% 45% at 88% 0%, rgba(78,230,216,.07), transparent 62%);}
 
 /* ---------- credentials ---------- */
 .cred-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);}
@@ -436,7 +430,7 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
 
 /* ---------- responsive ---------- */
 @media (max-width:1024px){
-  .flip-grid{grid-template-columns:repeat(2,1fr);}
+  .flip-grid{grid-template-columns:1fr;max-width:520px;}
   .journey-grid{grid-template-columns:repeat(2,1fr);}
   .journey-grid::before{display:none;}
 }
@@ -447,10 +441,9 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
   .hero{min-height:0;padding:70px 0 80px;}
   .hero-veil{background:linear-gradient(180deg, rgba(10,16,34,.82) 0%, rgba(10,16,34,.65) 100%);}
   .hero-ctas{margin-bottom:56px;}
-  .about-grid,.case-grid{grid-template-columns:1fr;}
+  .story-grid,.case-grid{grid-template-columns:1fr;}
   .cred-grid{grid-template-columns:1fr;}
   .testi-grid{grid-template-columns:1fr;}
-  .ripple-legend{grid-template-columns:1fr 1fr;}
   .stats-row{grid-template-columns:1fr 1fr;}
   .stat-cell:nth-child(2n){border-right:none;}
   .stat-cell:nth-child(1),.stat-cell:nth-child(2){border-bottom:1px solid var(--rule);}
@@ -460,7 +453,6 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
 @media (max-width:560px){
   .flip-grid{grid-template-columns:1fr;}
   .journey-grid{grid-template-columns:1fr;}
-  .ripple-legend{grid-template-columns:1fr;}
   .hero-tags{flex-direction:column;gap:12px;}
   .hero-tags::before,.hero-tags::after{width:100%;}
 }
@@ -520,7 +512,7 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
     <div class="wrap">
       <div class="hero-inner">
         <h1>Small shifts.<br><span class="grad-line grad-text">Meaningful ripples.</span></h1>
-        <p class="lede">I'm Sarah Chung — a learning and leadership consultant and facilitator. For 9+ years across APAC and EMEA, I've designed learning experiences and facilitated conversations that help people see differently, shift perspective, connect more deeply, make room to play — and move forward with hope.</p>
+        <p class="lede">I help organisations turn leadership, capability and collaboration challenges into practical learning experiences and facilitated conversations that change how people lead and work together.</p>
         <div class="hero-ctas">
           <a class="btn btn-primary" href="#work">Explore my work</a>
           <a class="btn btn-ghost" href="#contact">Start a conversation</a>
@@ -554,74 +546,44 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
   </div>
 
   <section id="about">
-    <div class="wrap about-grid">
-      <div class="about-copy">
-        <p class="eyebrow" style="margin-bottom:18px;">About</p>
-        <p>I've spent 9+ years designing leadership, manager capability and organisational learning across APAC and EMEA — from global banks and pharma companies to a vulnerable-youth organisation in Botswana. I'm now based in the UK.</p>
-        <p>I partner with senior leaders and People teams to translate business priorities into practical learning ecosystems: blended programmes, experiential journeys and capability interventions that get measured in behaviour change — at 30, 60 and 90 days — not attendance.</p>
-        <p>My practice brings together facilitation, behavioural science and psychometrics, AI-enabled learning, and mental-health-informed design. The strategy has to hold up, and the room has to feel safe enough for something real to happen in it.</p>
-      </div>
-      <div class="fact-list">
-        <div class="fact-row"><span class="fact-k">Years in practice</span><span class="fact-v">9+</span></div>
-        <div class="fact-row"><span class="fact-k">Regions</span><span class="fact-v">APAC &amp; EMEA</span></div>
-        <div class="fact-row"><span class="fact-k">Sectors</span><span class="fact-v">Finance · Pharma · FMCG · Fintech · NGOs</span></div>
-        <div class="fact-row"><span class="fact-k">Delivery format</span><span class="fact-v">In-person · Hybrid · Virtual</span></div>
-        <div class="fact-row"><span class="fact-k">Languages</span><span class="fact-v">English · Cantonese · Mandarin</span></div>
-        <div class="fact-row"><span class="fact-k">Education</span><span class="fact-v">BBA, Human Resource Management</span></div>
-        <div class="fact-row"><span class="fact-k">Based in</span><span class="fact-v">United Kingdom</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="story-section" id="story">
-    <div class="wrap story-inner">
-      <p class="eyebrow">My story</p>
-      <h2>Where the ripple began</h2>
-      <div class="story-copy">
-        <p>When I was 19, I travelled alone through Morocco. In a small rural town, I visited a textile workshop and noticed a young woman working quietly in the room. She seemed reserved, perhaps a little tired. We had no shared language, but something in me wanted to reach across the distance.</p>
-        <p>So we began communicating in the only ways we could — through gestures, expressions and curiosity.</p>
-        <p>Before leaving, I gave her a Hong Kong two-dollar coin. Its unusual shape and bauhinia flower caught her attention, and for the first time, she smiled. In return, she took my scarf and carefully wrapped it around my head in the Moroccan style. For a brief moment, two strangers from very different worlds met one another without needing many words.</p>
-        <p class="story-key">I did not change her life, and I never learned her story. But that small exchange changed something in the space between us — and it stayed with me.</p>
-        <p>Years later, I began to recognise the same pattern in learning and facilitation. Meaningful change does not always begin with a grand intervention. Sometimes it begins when someone feels noticed, encounters a different perspective or receives a small invitation to respond in a new way.</p>
-        <p>We may never know where that moment travels next. A question, a gesture or a seed planted today may influence another conversation, relationship or decision tomorrow.</p>
-        <p class="story-close">That is why I do this work: to create the conditions for small human shifts that can continue rippling beyond the room.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="why-section" id="why">
     <div class="wrap">
-      <div class="section-head" style="text-align:center;margin-left:auto;margin-right:auto;margin-bottom:44px;">
-        <p class="eyebrow">01 · My Why</p>
+      <div class="section-head">
+        <p class="eyebrow">01 · My story &amp; my why</p>
+        <h2>Where the ripple began</h2>
       </div>
-      <blockquote class="why-quote"><span class="qmark">“</span>Change does not always begin with a grand gesture. Sometimes, it begins when one person feels heard and sees a new possibility.<span class="qmark">”</span></blockquote>
-      <p class="why-text">That is the moment I design for. One small shift — a perspective loosened, a hope recovered, a belief rewritten — can spark a ripple that travels much further than the room it started in.</p>
-      <div class="ripple-stage" aria-hidden="true">
-        <div class="rr rr4"></div>
-        <div class="rr rr3"></div>
-        <div class="rr rr2"></div>
-        <div class="rr rr1"></div>
-      </div>
-      <div class="ripple-legend">
-        <div class="rl-cell">
-          <div class="rl-swatch s1"></div>
-          <b>A conversation</b>
-          <small>Where every shift starts — one person feels heard.</small>
+      <div class="story-grid">
+        <div class="story-copy">
+          <p>For 9+ years across APAC and EMEA — and now from the UK — I've partnered with senior leaders and People teams as a learning and leadership consultant and facilitator, turning business priorities into learning that gets measured in behaviour change, not attendance.</p>
+          <p>The ripple began early. At 19, travelling alone through Morocco, I met a young woman in a textile workshop. We had no shared language — so we spoke in gestures, expressions and curiosity. Before leaving, I gave her a Hong Kong two-dollar coin; its bauhinia flower made her smile for the first time. In return, she wrapped my scarf around my head in the Moroccan style. Two strangers from very different worlds, meeting without many words.</p>
+          <p class="story-key">I did not change her life, and I never learned her story. But that small exchange changed something in the space between us — and it stayed with me.</p>
+          <p>Years later, I recognised the same pattern in learning and facilitation: change does not always begin with a grand gesture. Sometimes it begins when one person feels heard and sees a new possibility.</p>
+          <p class="story-close">That is why I do this work: to create the conditions for small human shifts that can continue rippling beyond the room.</p>
+          <details class="story-more">
+            <summary>Read the whole story</summary>
+            <div class="story-more-body">
+              <p>In that small rural town, I visited the textile workshop and noticed her working quietly in the room. She seemed reserved, perhaps a little tired. Something in me wanted to reach across the distance.</p>
+              <p>We may never know where a moment like that travels next. A question, a gesture or a seed planted today may influence another conversation, relationship or decision tomorrow. Meaningful change does not always need a grand intervention — sometimes it needs someone to feel noticed, to encounter a different perspective, or to receive a small invitation to respond in a new way.</p>
+            </div>
+          </details>
         </div>
-        <div class="rl-cell">
-          <div class="rl-swatch s2"></div>
-          <b>A shift in thinking</b>
-          <small>New perspective, a new possibility seen.</small>
-        </div>
-        <div class="rl-cell">
-          <div class="rl-swatch s3"></div>
-          <b>A team, a family</b>
-          <small>The shift travels home and to work.</small>
-        </div>
-        <div class="rl-cell">
-          <div class="rl-swatch s4"></div>
-          <b>A ripple beyond it</b>
-          <small>Passed on, again and again.</small>
+        <div class="story-side">
+          <!-- PHOTO SLOT: replace this placeholder with a real photo, e.g.
+               <img class="story-photo" src="sarah-facilitating.jpg" alt="Sarah facilitating a workshop"> -->
+          <div class="photo-slot" role="img" aria-label="Photo placeholder">
+            <svg viewBox="0 0 64 64" width="44" height="44" aria-hidden="true">
+              <path d="M 32 5 C 35.5 11, 40 15.5, 40 21 A 8 8 0 1 1 24 21 C 24 15.5, 28.5 11, 32 5 Z" fill="#E9B950" opacity=".8"/>
+              <ellipse cx="32" cy="45" rx="9" ry="3.4" fill="none" stroke="#E9B950" stroke-width="2.6" opacity=".65"/>
+              <ellipse cx="32" cy="46.5" rx="17" ry="6" fill="none" stroke="#E9B950" stroke-width="2.3" opacity=".35"/>
+            </svg>
+            <span>Your photo in action goes here</span>
+          </div>
+          <div class="fact-list">
+            <div class="fact-row"><span class="fact-k">Years in practice</span><span class="fact-v">9+</span></div>
+            <div class="fact-row"><span class="fact-k">Regions</span><span class="fact-v">APAC &amp; EMEA</span></div>
+            <div class="fact-row"><span class="fact-k">Sectors</span><span class="fact-v">Finance · Pharma · FMCG · Fintech · NGOs</span></div>
+            <div class="fact-row"><span class="fact-k">Languages</span><span class="fact-v">English · Cantonese · Mandarin</span></div>
+            <div class="fact-row"><span class="fact-k">Based in</span><span class="fact-v">United Kingdom</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -632,24 +594,29 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
       <div class="section-head">
         <p class="eyebrow">02 · How I create ripples</p>
         <h2>What I bring into the room</h2>
-        <p>Work that moves from insight to action — four practice areas, each with two sides. Flip a card to see what's inside.</p>
+        <p>Work that moves from insight to action — three ways we might work together. Flip a card to see the possible work inside.</p>
       </div>
       <div class="flip-grid">
         <div class="flip-card">
           <div class="flip-inner">
             <div class="flip-face flip-front">
-              <svg class="svc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3.4"/></svg>
-              <p class="flip-num">Design</p>
-              <h3>Learning Design &amp; Strategy</h3>
-              <p class="teaser">Human-centred journeys, built on a strategy that holds up in the boardroom.</p>
-              <button type="button" class="flip-btn" aria-expanded="false">Flip for details ↻</button>
+              <svg class="svc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17l5-5 4 4 8-9"/><path d="M15 7h5v5"/></svg>
+              <p class="flip-num">Offer 01</p>
+              <h3>Leadership &amp; Manager Development</h3>
+              <p class="teaser">For organisations building the confidence and capability of new, emerging or experienced managers.</p>
+              <button type="button" class="flip-btn" aria-expanded="false">See possible work ↻</button>
             </div>
             <div class="flip-face flip-back">
               <div>
-                <h4>Learning Design</h4>
-                <p>Human-centred learning journeys that turn complex ideas into experiences people can understand, practise and carry into their work.</p>
-                <h4>Learning Strategy &amp; Capability</h4>
-                <p>Translating business priorities into practical learning ecosystems, capability interventions and data-led evaluation.</p>
+                <h4>Possible work</h4>
+                <ul>
+                  <li>Blended leadership journeys</li>
+                  <li>Manager communication</li>
+                  <li>Feedback &amp; performance conversations</li>
+                  <li>Leading through change</li>
+                  <li>Emotional intelligence (Genos EI &amp; DISC)</li>
+                  <li>Behavioural application &amp; follow-through</li>
+                </ul>
               </div>
               <button type="button" class="flip-btn" aria-expanded="true">↩ Back</button>
             </div>
@@ -659,17 +626,22 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
           <div class="flip-inner">
             <div class="flip-face flip-front">
               <svg class="svc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3a13 13 0 0 1 0 18M12 3a13 13 0 0 0 0 18M3.5 9h17M3.5 15h17"/></svg>
-              <p class="flip-num">Facilitate</p>
-              <h3>Facilitation &amp; Community Dialogue</h3>
-              <p class="teaser">Rooms of 10 to 300 where people actually talk to each other.</p>
-              <button type="button" class="flip-btn" aria-expanded="false">Flip for details ↻</button>
+              <p class="flip-num">Offer 02</p>
+              <h3>Team &amp; Organisational Facilitation</h3>
+              <p class="teaser">For teams that need to align, address difficult issues, collaborate across boundaries or make meaningful decisions together.</p>
+              <button type="button" class="flip-btn" aria-expanded="false">See possible work ↻</button>
             </div>
             <div class="flip-face flip-back">
               <div>
-                <h4>Facilitation &amp; Delivery</h4>
-                <p>In-person, hybrid or virtual — participatory and experiential, built on practice, not presentation.</p>
-                <h4>Community Dialogue</h4>
-                <p>Carefully held spaces for honest conversations across difference — building connection, curiosity and a stronger sense of togetherness.</p>
+                <h4>Possible work</h4>
+                <ul>
+                  <li>Leadership retreats</li>
+                  <li>Team alignment</li>
+                  <li>Cross-functional collaboration</li>
+                  <li>Strategy &amp; priority conversations</li>
+                  <li>Psychologically safe dialogue</li>
+                  <li>Large-group &amp; cross-cultural facilitation</li>
+                </ul>
               </div>
               <button type="button" class="flip-btn" aria-expanded="true">↩ Back</button>
             </div>
@@ -678,38 +650,23 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
         <div class="flip-card">
           <div class="flip-inner">
             <div class="flip-face flip-front">
-              <svg class="svc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17l5-5 4 4 8-9"/><path d="M15 7h5v5"/></svg>
-              <p class="flip-num">Develop</p>
-              <h3>Leadership &amp; Behavioural Science</h3>
-              <p class="teaser">Behaviour change you can measure at 30, 60 and 90 days.</p>
-              <button type="button" class="flip-btn" aria-expanded="false">Flip for details ↻</button>
+              <svg class="svc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3.4"/></svg>
+              <p class="flip-num">Offer 03</p>
+              <h3>Learning Strategy &amp; Experience Design</h3>
+              <p class="teaser">For organisations that need to translate a business or capability priority into learning that people can understand, practise and use.</p>
+              <button type="button" class="flip-btn" aria-expanded="false">See possible work ↻</button>
             </div>
             <div class="flip-face flip-back">
               <div>
-                <h4>Leadership &amp; Management Development</h4>
-                <p>Leadership frameworks and blended journeys — measured in behaviour change, not smile sheets.</p>
-                <h4>Behavioural Science &amp; Psychometrics</h4>
-                <p>Genos EI, Everything DISC and DISC Flow programmes that help people read a room — and themselves — more accurately.</p>
-              </div>
-              <button type="button" class="flip-btn" aria-expanded="true">↩ Back</button>
-            </div>
-          </div>
-        </div>
-        <div class="flip-card">
-          <div class="flip-inner">
-            <div class="flip-face flip-front">
-              <svg class="svc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.35-9.5-8.5C.8 9 2 5 6 5c2 0 3.5 1.2 4 2 .5-.8 2-2 4-2 4 0 5.2 4 3.5 7.5C19 16.65 12 21 12 21Z"/></svg>
-              <p class="flip-num">Innovate &amp; Care</p>
-              <h3>AI Fluency &amp; Mindful Practice</h3>
-              <p class="teaser">New tools and safe rooms — both, not either.</p>
-              <button type="button" class="flip-btn" aria-expanded="false">Flip for details ↻</button>
-            </div>
-            <div class="flip-face flip-back">
-              <div>
-                <h4>AI &amp; Digital Fluency</h4>
-                <p>AI-assisted learning tools and digital adoption — including simulations built for live workshops.</p>
-                <h4>Mental Health–Informed Practice</h4>
-                <p>i-ACT and Internal Family Systems–informed design for programmes that ask people to go somewhere honest.</p>
+                <h4>Possible work</h4>
+                <ul>
+                  <li>Learning-needs analysis</li>
+                  <li>Programme &amp; journey design</li>
+                  <li>Experiential workshops</li>
+                  <li>Learning ecosystems</li>
+                  <li>Digital &amp; AI-enabled learning</li>
+                  <li>Evaluation &amp; behavioural transfer</li>
+                </ul>
               </div>
               <button type="button" class="flip-btn" aria-expanded="true">↩ Back</button>
             </div>
@@ -719,7 +676,7 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
     </div>
   </section>
 
-  <section id="credentials">
+  <section id="credentials" class="dotted">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">03 · Credentials</p>
@@ -746,7 +703,7 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
     </div>
   </section>
 
-  <section id="approach">
+  <section id="approach" class="washed">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">04 · The rhythm</p>
@@ -796,7 +753,7 @@ footer{padding:46px 0;border-top:1px solid var(--rule);}
     </div>
   </section>
 
-  <section id="work">
+  <section id="work" class="dotted">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">05 · Case studies</p>
