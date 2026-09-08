@@ -1,0 +1,93 @@
+rules_version = '2';
+
+// Firestore security rules — baseline for the learning platform backend.
+//
+// Posture: deny by default. Nothing is readable or writable unless a rule
+// below explicitly allows it. There is deliberately no `allow read, write:
+// if true` anywhere in this file, and none should ever be added — that would
+// expose every document to the public internet, since Firestore rules are the
+// only thing standing between a browser client and the database.
+//
+// The `users/{userId}` block is the one concrete ruleset so far, because it is
+// the same shape in essentially every authenticated app. Rules for the app's
+// real collections get added once the collection list is known; until then
+// they fall through to the default deny at the bottom, which is the safe
+// state to ship.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------------------------------------------------------------------
+    // Helpers
+    // ---------------------------------------------------------------------
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isUser(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Admin comes from a custom claim minted by the Admin SDK or a Cloud
+    // Function. It must never be read from a Firestore document that the
+    // client can write, or a user could promote themselves to admin.
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.admin == true;
+    }
+
+    // Fields present on a create.
+    function newFields() {
+      return request.resource.data.keys();
+    }
+
+    // Fields actually being changed on an update.
+    function changedFields() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+
+    // ---------------------------------------------------------------------
+    // users/{userId} — a user's own profile document
+    // ---------------------------------------------------------------------
+
+    match /users/{userId} {
+      // A user reads their own profile. `list` is separated from `get` so a
+      // signed-in user cannot enumerate the whole user base.
+      allow get: if isUser(userId) || isAdmin();
+      allow list: if isAdmin();
+
+      // On create, the document id must be the caller's own uid, the field set
+      // is closed, and the email must match the verified token — a client
+      // cannot claim someone else's address.
+      allow create: if isUser(userId)
+                    && newFields().hasOnly(['displayName', 'email', 'photoURL', 'createdAt'])
+                    && request.resource.data.email == request.auth.token.email
+                    && request.resource.data.displayName is string
+                    && request.resource.data.displayName.size() <= 100;
+
+      // On update, only presentation fields may change. email, createdAt and
+      // any future role/entitlement field stay server-controlled.
+      allow update: if isUser(userId)
+                    && changedFields().hasOnly(['displayName', 'photoURL'])
+                    && (!('displayName' in request.resource.data)
+                        || (request.resource.data.displayName is string
+                            && request.resource.data.displayName.size() <= 100));
+
+      // Account deletion runs through the Admin SDK so auth and data stay in
+      // sync; clients do not delete profile documents directly.
+      allow delete: if isAdmin();
+    }
+
+    // ---------------------------------------------------------------------
+    // Default deny
+    // ---------------------------------------------------------------------
+    //
+    // Firestore already denies anything unmatched, and rules are OR-ed so this
+    // cannot revoke an allow above. It is here as an explicit statement of
+    // intent: a new collection is closed until someone writes a rule for it.
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,20 @@
+# Firebase
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+firestore-debug.log
+ui-debug.log
+database-debug.log
+pubsub-debug.log
+
+# Service account keys — never commit these
+*-firebase-adminsdk-*.json
+serviceAccountKey.json
+
+# Local env
+.env
+.env.local
+.env.*.local
+
+# Node
+node_modules/
